@@ -14,24 +14,27 @@ export function useThemeColor(
     return colorFromProps ? colorFromProps : Colors[theme][colorName];
 }
 // 
-type ThemeProps = {
-    lightColor?: string;
-    darkColor?: string;
+export type ThemeProps = {
+    light?: string;
+    dark?: string;
+    themed?: boolean;
 };
 
 export type TextProps = ThemeProps & DefaultText['props'] & { bold?: boolean, thin?: boolean };
 export type ViewProps = ThemeProps & DefaultView['props'];
 
 export function Text(props: TextProps) {
-    const { style, lightColor, darkColor, ...otherProps } = props;
-    const color = useThemeColor({ light: lightColor, dark: darkColor }, 'text');
+    const { style, light, dark, bold, thin, ...otherProps } = props;
+    const color = useThemeColor({ light, dark }, 'text');
 
-    return <DefaultText style={[{ color }, style]} {...otherProps} />;
+    return <DefaultText style={[{ color, fontSize: 16, fontFamily: bold ? 'Rota-Bold' : thin ? 'Rota-thin' : 'Rota' }, style]} {...otherProps} />;
 }
 
+
 export function View(props: ViewProps) {
-    const { style, lightColor, darkColor, ...otherProps } = props;
-    const backgroundColor = useThemeColor({ light: lightColor, dark: darkColor }, 'background');
+    const { style, light, dark, themed, ...otherProps } = props;
+    const backgroundColor = themed ?
+        useThemeColor({ light, dark }, 'background') : 'transparent';
 
     return <DefaultView style={[{ backgroundColor }, style]} {...otherProps} />;
 }
