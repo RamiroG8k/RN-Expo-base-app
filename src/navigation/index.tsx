@@ -1,31 +1,36 @@
 // Common
 import * as React from 'react';
-import { FontAwesome } from '@expo/vector-icons';
-import { createBottomTabNavigator, BottomTabNavigationOptions } from '@react-navigation/bottom-tabs';
-// import { createBottomTabNavigator, BottomTabBarOptions, BottomTabNavigationOptions } from '@react-navigation/bottom-tabs';
-import { NavigationContainer, DefaultTheme, DarkTheme } from '@react-navigation/native';
 import { createNativeStackNavigator } from '@react-navigation/native-stack';
+import { NavigationContainer, DefaultTheme, DarkTheme } from '@react-navigation/native';
+import { createBottomTabNavigator, BottomTabNavigationOptions } from '@react-navigation/bottom-tabs';
 import { ColorSchemeName, Pressable, Platform, StyleSheet } from 'react-native';
 // Screens
-import { ModalScreen, NotFoundScreen, TabOneScreen, TabTwoScreen }from '@screens/index';
+import { ModalScreen, NotFoundScreen, TabOneScreen, TabTwoScreen } from '@screens/index';
 // Data | Services
-import { Colors }from '@constants/index';
+import { Colors } from '@constants/index';
 import useColorScheme from '@hooks/useColorScheme';
 import { RootStackParamList, RootTabParamList, RootTabScreenProps } from '@helpers/types';
-
+// Others
+import { FontAwesome } from '@expo/vector-icons';
 import LinkingConfiguration from './LinkingConfiguration';
 import { Text } from '@components/Themed';
 
+/**
+ * Exports main navigation container
+ * @constructor
+ * @function Navigation 
+ * @return { ReactNavigation }
+ */
 export default function Navigation({ colorScheme }: { colorScheme: ColorSchemeName }) {
     return (
-        <NavigationContainer linking={LinkingConfiguration} theme={colorScheme === 'dark' ? DarkTheme : DefaultTheme}>
+        <NavigationContainer linking={LinkingConfiguration}
+            theme={colorScheme === 'dark' ? DarkTheme : DefaultTheme}>
             <RootNavigator />
         </NavigationContainer>
     );
 }
 
 const Stack = createNativeStackNavigator<RootStackParamList>();
-
 function RootNavigator() {
     return (
         <Stack.Navigator>
@@ -39,22 +44,8 @@ function RootNavigator() {
 }
 
 const BottomTab = createBottomTabNavigator<RootTabParamList>();
-
 function BottomTabNavigator() {
     const colorScheme = useColorScheme();
-
-    const tabBarOptions = {
-        activeTintColor: Colors[colorScheme].tabIconSelected,
-        inactiveTintColor: Colors[colorScheme].tabIconDefault,
-        style: {
-            alignItems: 'center',
-            height: Platform.OS === 'ios' ? 75 : 60,
-            paddingTop: 10,
-            paddingBottom: Platform.OS === 'ios' ? 25 : 0,
-            paddingHorizontal: '5%',
-            ...styles.shadow
-        }
-    };
 
     const tabNavOptions = (route: string, icon: any) => {
         const tabNavigationOptions: BottomTabNavigationOptions = {
@@ -65,8 +56,8 @@ function BottomTabNavigator() {
     }
 
     return (
-        <BottomTab.Navigator 
-            initialRouteName="TabOne" screenOptions={{ tabBarActiveTintColor: Colors[colorScheme].tint }}>
+        <BottomTab.Navigator initialRouteName="TabOne" 
+            screenOptions={{ tabBarActiveTintColor: Colors[colorScheme].tabIconSelected, headerShown: false }}>
             {/* <BottomTab.Screen name="TabOne" component={TabOneScreen}
                 options={({ navigation }: RootTabScreenProps<'TabOne'>) => ({
                     title: 'Tab One',
@@ -87,22 +78,11 @@ function BottomTabNavigator() {
     );
 }
 
-function TabBarIcon(props: {
-    name: React.ComponentProps<typeof FontAwesome>['name'];
-    color: string;
-}) { return <FontAwesome size={30} style={{ marginBottom: -3 }} {...props} />; }
+function TabBarIcon(props: { name: React.ComponentProps<typeof FontAwesome>['name']; color: string; }) {
+    return <FontAwesome size={30} style={{ marginBottom: -3 }} {...props} />;
+}
 
 const styles = StyleSheet.create({
-    shadow: {
-        shadowColor: '#000',
-        shadowOffset: {
-            width: 0,
-            height: 0,
-        },
-        shadowOpacity: 0.10,
-        shadowRadius: 5,
-        elevation: 10,
-    },
     label: {
         marginBottom: Platform.OS === 'ios' ? -5 : 5,
         fontSize: 12
