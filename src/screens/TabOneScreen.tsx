@@ -1,7 +1,9 @@
+// Common
 import * as React from 'react';
 import { StyleSheet } from 'react-native';
-
+// Components
 import { Text, View } from '@components/Themed';
+// Others
 import { RootTabScreenProps } from '@helpers/types';
 
 export default function TabOneScreen({ navigation }: RootTabScreenProps<'TabOne'>) {
@@ -21,10 +23,5 @@ const styles = StyleSheet.create({
     title: {
         fontSize: 20,
         fontWeight: 'bold',
-    },
-    separator: {
-        marginVertical: 30,
-        height: 1,
-        width: '80%',
     },
 });

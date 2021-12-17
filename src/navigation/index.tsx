@@ -13,7 +13,7 @@ import { RootStackParamList, RootTabParamList, RootTabScreenProps } from '@helpe
 // Others
 import { FontAwesome } from '@expo/vector-icons';
 import LinkingConfiguration from './LinkingConfiguration';
-import { Text } from '@components/Themed';
+import { BottomTabNav } from '@components/shared/index';
 
 /**
  * Exports main navigation container
@@ -47,17 +47,33 @@ const BottomTab = createBottomTabNavigator<RootTabParamList>();
 function BottomTabNavigator() {
     const colorScheme = useColorScheme();
 
-    const tabNavOptions = (route: string, icon: any) => {
-        const tabNavigationOptions: BottomTabNavigationOptions = {
-            tabBarIcon: ({ color, focused }) => <TabBarIcon name={focused ? icon : `${icon}`} color={color} />,
-            tabBarLabel: ({ color, focused }) => <Text style={[styles.label, { color }]}>{focused ? route : null}</Text>,
-        };
-        return tabNavigationOptions;
-    }
+    // const tabNavOptions = (route: string, icon: any) => {
+    //     const tabNavigationOptions: BottomTabNavigationOptions = {
+    //         tabBarIcon: ({ color, focused }) => <TabBarIcon name={focused ? icon : `${icon}`} color={color} />,
+    //         tabBarLabel: ({ color, focused }) => <Text style={[styles.label, { color }]}>{focused ? route : null}</Text>,
+    //     };
+    //     return tabNavigationOptions;
+    // };
+
+    // const screenOptions = {
+    //     headerShown: false,
+    //     tabBarStyle: {
+    //         borderRadius: 45,
+    //         borderTopWidth: 0,
+    //         height: 60,
+    //         position: 'absolute',
+    //         bottom: 16,
+    //         right: 16,
+    //         left: 16,
+    //     },
+    //     tabBarActiveTintColor: Colors[colorScheme].tabIconSelected,
+    // };
+
+    
 
     return (
-        <BottomTab.Navigator initialRouteName="TabOne" 
-            screenOptions={{ tabBarActiveTintColor: Colors[colorScheme].tabIconSelected, headerShown: false }}>
+        <BottomTab.Navigator tabBar={props => <BottomTabNav {...props} />} initialRouteName="TabOne"
+            screenOptions={{ headerShown: false }}>
             {/* <BottomTab.Screen name="TabOne" component={TabOneScreen}
                 options={({ navigation }: RootTabScreenProps<'TabOne'>) => ({
                     title: 'Tab One',
@@ -71,9 +87,11 @@ function BottomTabNavigator() {
                 })}
             /> */}
             <BottomTab.Screen name="TabOne" component={TabOneScreen}
-                options={tabNavOptions('Home', 'home')} />
+                // options={tabNavOptions('Home', 'home')} 
+                />
             <BottomTab.Screen name="TabTwo" component={TabTwoScreen}
-                options={tabNavOptions('Settings', 'gears')} />
+                // options={tabNavOptions('Settings', 'gears')} 
+                />
         </BottomTab.Navigator>
     );
 }
