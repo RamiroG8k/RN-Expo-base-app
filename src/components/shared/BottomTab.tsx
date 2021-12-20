@@ -4,9 +4,9 @@ import React from 'react';
 import { Text, View } from '@components/Themed';
 import { TouchableOpacity, StyleSheet } from 'react-native';
 
-const BottomTabNav = ({ state, descriptors, navigation }) => {
+const BottomTabNav = ({ state, descriptors, navigation, ...other }) => {
     return (
-        <View style={styles.container}>
+        <View themed light="#FFF" dark="#000" style={styles.container}>
             {state.routes.map((route, index) => {
 
                 const { options } = descriptors[route.key];
@@ -38,16 +38,16 @@ const BottomTabNav = ({ state, descriptors, navigation }) => {
                         target: route.key,
                     });
                 };
-
+                
                 return (
-                    <TouchableOpacity key={index}
+                    <TouchableOpacity key={index} {...options}
                         accessibilityRole="button"
                         accessibilityState={isFocused ? { selected: true } : {}}
                         accessibilityLabel={options.tabBarAccessibilityLabel}
-                        testID={options.tabBarTestID}
                         onPress={onPress}
                         onLongPress={onLongPress}
                         style={styles.button}
+                        testID={options.tabBarTestID}
                     >
                         <Text>
                             {label}
@@ -62,19 +62,22 @@ const BottomTabNav = ({ state, descriptors, navigation }) => {
 const styles = StyleSheet.create({
     container: {
         alignItems: 'center',
-        backgroundColor: 'white',
         borderRadius: 20,
         bottom: 16,
         flexDirection: 'row',
         height: 50,
-        justifyContent: 'center',
+        justifyContent: 'space-around',
         left: 16,
+        padding: 10,
         position: 'absolute',
         right: 16
     },
     button: {
-        flex: 1,
-        alignItems: 'center'
+        alignItems: 'center',
+        backgroundColor: 'tomato',
+        // flex: 1,
+        marginHorizontal: 10,
+        width: 'auto',
     }
 });
 

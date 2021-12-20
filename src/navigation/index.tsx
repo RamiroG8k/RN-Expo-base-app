@@ -2,8 +2,8 @@
 import * as React from 'react';
 import { createNativeStackNavigator } from '@react-navigation/native-stack';
 import { NavigationContainer, DefaultTheme, DarkTheme } from '@react-navigation/native';
-import { createBottomTabNavigator, BottomTabNavigationOptions } from '@react-navigation/bottom-tabs';
-import { ColorSchemeName, Pressable, Platform, StyleSheet } from 'react-native';
+import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
+import { ColorSchemeName, Pressable, Platform } from 'react-native';
 // Screens
 import { ModalScreen, NotFoundScreen, TabOneScreen, TabTwoScreen } from '@screens/index';
 // Data | Services
@@ -45,7 +45,7 @@ function RootNavigator() {
 
 const BottomTab = createBottomTabNavigator<RootTabParamList>();
 function BottomTabNavigator() {
-    const colorScheme = useColorScheme();
+    // const colorScheme = useColorScheme();
 
     // const tabNavOptions = (route: string, icon: any) => {
     //     const tabNavigationOptions: BottomTabNavigationOptions = {
@@ -54,22 +54,6 @@ function BottomTabNavigator() {
     //     };
     //     return tabNavigationOptions;
     // };
-
-    // const screenOptions = {
-    //     headerShown: false,
-    //     tabBarStyle: {
-    //         borderRadius: 45,
-    //         borderTopWidth: 0,
-    //         height: 60,
-    //         position: 'absolute',
-    //         bottom: 16,
-    //         right: 16,
-    //         left: 16,
-    //     },
-    //     tabBarActiveTintColor: Colors[colorScheme].tabIconSelected,
-    // };
-
-    
 
     return (
         <BottomTab.Navigator tabBar={props => <BottomTabNav {...props} />} initialRouteName="TabOne"
@@ -86,12 +70,8 @@ function BottomTabNavigator() {
                     ),
                 })}
             /> */}
-            <BottomTab.Screen name="TabOne" component={TabOneScreen}
-                // options={tabNavOptions('Home', 'home')} 
-                />
-            <BottomTab.Screen name="TabTwo" component={TabTwoScreen}
-                // options={tabNavOptions('Settings', 'gears')} 
-                />
+            <BottomTab.Screen name="TabOne" component={TabOneScreen} />
+            <BottomTab.Screen name="TabTwo" component={TabTwoScreen} />
         </BottomTab.Navigator>
     );
 }
@@ -99,10 +79,3 @@ function BottomTabNavigator() {
 function TabBarIcon(props: { name: React.ComponentProps<typeof FontAwesome>['name']; color: string; }) {
     return <FontAwesome size={30} style={{ marginBottom: -3 }} {...props} />;
 }
-
-const styles = StyleSheet.create({
-    label: {
-        marginBottom: Platform.OS === 'ios' ? -5 : 5,
-        fontSize: 12
-    }
-});
